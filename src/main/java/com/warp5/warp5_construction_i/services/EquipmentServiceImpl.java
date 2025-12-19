@@ -24,7 +24,6 @@ public class EquipmentServiceImpl implements EquipmentService {
     @Override
     public EquipmentResponse createEquipment(EquipmentRequest request) {
         Equipment equipment = new Equipment();
-        equipment.setId(null);
         equipment.setName(request.getName());
         equipment.setOwnerId(request.getOwnerId());
         equipment.setOwnerName(request.getOwnerName());

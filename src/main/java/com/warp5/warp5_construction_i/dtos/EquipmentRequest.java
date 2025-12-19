@@ -11,7 +11,7 @@ public class EquipmentRequest {
     private String imageTwo;
     private String imageThree;
 
-    @NotBlank
+
     private String name;
 
     private String description;
