@@ -3,9 +3,9 @@ spring:
     name: warp5_construction_i
 
   datasource:
-    url: jdbc:postgresql://localhost:5432/warp5_db
-    username: postgres
-    password:
+    url: ${JDBC_DATABASE_URL}
+    username: ${JDBC_DATABASE_USERNAME}
+    password: ${JDBC_DATABASE_PASSWORD}
     driver-class-name: org.postgresql.Driver
     initialization-mode: always
 
@@ -29,9 +29,9 @@ spring:
     enabled: true
     baseline-on-migrate: true    # Useful if DB already has existing tables
     locations: classpath:db/migration
-    url: jdbc:postgresql://localhost:5432/warp5_db
-    user: postgres
-    password:
+    url: ${JDBC_DATABASE_URL}
+    user: ${JDBC_DATABASE_USERNAME}
+    password: ${JDBC_DATABASE_PASSWORD}
 
 server:
   port: ${PORT:8080}            # Heroku provides PORT automatically
