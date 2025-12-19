@@ -3,7 +3,7 @@ spring:
     name: warp5_construction_i
 
   datasource:
-    url: ${DATABASE_URL}           # Use Heroku-provided DATABASE_URL
+    url: ${JDBC_DATABASE_URL}           # Use Heroku-provided DATABASE_URL
     driver-class-name: org.postgresql.Driver
     initialization-mode: always
 
