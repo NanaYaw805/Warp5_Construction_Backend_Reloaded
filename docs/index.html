@@ -1,0 +1,633 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Warp5 Construction — Documentation</title>
+  <style>
+    :root{
+      --bg:#0f1720;
+      --panel:#0b1220;
+      --muted:#9aa8bf;
+      --accent:#60a5fa;
+      --accent-2:#34d399;
+      --card:#0b1420;
+      --surface:#071028;
+      --text:#e6eef8;
+      --mono-bg:#021224;
+      --danger:#ef4444;
+      --radius:10px;
+      font-family: Inter, ui-sans-serif, system-ui, -apple-system, "Segoe UI",
+                   Roboto, "Helvetica Neue", Arial;
+    }
+    html,body{height:100%}
+    body{
+      margin:0;
+      background:linear-gradient(180deg,var(--bg),#041024);
+      color:var(--text);
+      -webkit-font-smoothing:antialiased;
+      -moz-osx-font-smoothing:grayscale;
+      display:flex;
+      min-height:100vh;
+      gap:20px;
+      padding:28px;
+    }
+
+    /* Layout */
+    .container{
+      display:grid;
+      grid-template-columns:320px 1fr;
+      gap:24px;
+      width:100%;
+      max-width:1400px;
+      margin:0 auto;
+    }
+
+    aside{
+      background:linear-gradient(180deg,var(--panel),#071328);
+      border-radius:var(--radius);
+      padding:18px;
+      box-shadow: 0 6px 20px rgba(2,6,23,0.7);
+      position:sticky;
+      top:28px;
+      height:calc(100vh - 56px);
+      overflow:auto;
+    }
+
+    header.logo{
+      display:flex;
+      gap:12px;
+      align-items:center;
+      margin-bottom:10px;
+    }
+    .logo-mark{
+      width:52px;
+      height:52px;
+      border-radius:10px;
+      background:linear-gradient(135deg,var(--accent),var(--accent-2));
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      font-weight:700;
+      color:#02202b;
+      box-shadow:0 6px 18px rgba(32,124,255,0.12);
+    }
+    h1{font-size:15px;margin:0}
+    p.lead{margin:6px 0 18px;color:var(--muted);font-size:13px}
+
+    .search{
+      display:flex;
+      gap:8px;
+      margin-bottom:10px;
+    }
+    .search input{
+      flex:1;
+      padding:10px 12px;
+      border-radius:8px;
+      border:1px solid rgba(255,255,255,0.04);
+      background:transparent;
+      color:var(--text);
+      outline:none;
+    }
+    .toc{list-style:none;padding:0;margin:0;display:flex;flex-direction:column;gap:6px}
+    .toc a{
+      color:var(--muted);
+      text-decoration:none;
+      font-size:13px;
+      padding:8px 10px;
+      border-radius:8px;
+      display:block;
+    }
+    .toc a:hover{background:rgba(255,255,255,0.02);color:var(--text)}
+    .badge{display:inline-block;background:rgba(255,255,255,0.04);padding:6px 10px;border-radius:999px;color:var(--muted);font-size:12px;margin-left:auto}
+
+    main{
+      overflow:auto;
+      padding:22px;
+      border-radius:var(--radius);
+      background:linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
+      box-shadow: 0 10px 30px rgba(2,6,23,0.6);
+      min-height:calc(100vh - 56px);
+    }
+
+    section.card{
+      background:linear-gradient(180deg,var(--card),#061328);
+      border-radius:12px;
+      padding:18px;
+      margin-bottom:18px;
+      box-shadow: 0 6px 16px rgba(2,6,23,0.5);
+    }
+    section.card h2{margin-top:0}
+    .meta{color:var(--muted);font-size:13px;margin-bottom:8px}
+
+    .grid-2{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+    .endpoint{background:rgba(255,255,255,0.02);border-radius:8px;padding:10px}
+    .method{display:inline-block;padding:6px 8px;border-radius:6px;font-weight:700;font-size:12px;margin-right:8px;background:rgba(255,255,255,0.03)}
+    .method.POST{background:linear-gradient(90deg,#1e3a8a,#2563eb); color:white}
+    .method.GET{background:linear-gradient(90deg,#065f46,#10b981); color:white}
+    .method.PATCH{background:linear-gradient(90deg,#b45309,#f59e0b); color:white}
+    .method.PUT{background:linear-gradient(90deg,#7c3aed,#8b5cf6); color:white}
+
+    pre{
+      background:var(--mono-bg);
+      color:#e6f2ff;
+      padding:12px;
+      border-radius:8px;
+      overflow:auto;
+      font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, "Roboto Mono", "Courier New", monospace;
+      font-size:13px;
+      line-height:1.45;
+      margin:10px 0 0;
+      position:relative;
+      border:1px solid rgba(255,255,255,0.03);
+    }
+    .code-toolbar{
+      position:absolute;
+      right:8px;
+      top:8px;
+      display:flex;
+      gap:6px;
+    }
+    .btn{
+      background:rgba(255,255,255,0.03);
+      border:1px solid rgba(255,255,255,0.03);
+      color:var(--text);
+      padding:6px 8px;
+      font-size:12px;
+      border-radius:6px;
+      cursor:pointer;
+    }
+    .btn:active{transform:translateY(1px)}
+    .muted{color:var(--muted);font-size:13px}
+
+    table{
+      width:100%;
+      border-collapse:collapse;
+      margin-top:8px;
+      font-size:13px;
+    }
+    table thead th{
+      text-align:left;
+      padding:8px;
+      border-bottom:1px solid rgba(255,255,255,0.03);
+      color:var(--muted);
+      font-weight:600;
+    }
+    table tbody td{padding:10px 8px;border-bottom:1px dashed rgba(255,255,255,0.02)}
+    .kbd{background:rgba(255,255,255,0.03);padding:6px 8px;border-radius:6px;font-weight:600}
+
+    footer.small{color:var(--muted);font-size:12px;text-align:center;padding:10px 0;margin-top:12px}
+
+    /* Responsive */
+    @media (max-width:980px){
+      .container{grid-template-columns:1fr; padding:0}
+      aside{position:relative;height:auto}
+      body{padding:18px}
+    }
+  </style>
+</head>
+<body>
+  <div class="container" role="document">
+    <aside aria-label="Documentation navigation">
+      <div class="logo">
+        <div class="logo-mark">W5</div>
+        <div style="flex:1">
+          <h1>Warp5 Construction</h1>
+          <p class="lead">Backend API docs — Equipment Rental + Authentication</p>
+        </div>
+      </div>
+
+      <div class="search">
+        <input id="search" placeholder="Search headings or endpoints..." aria-label="Search documentation" />
+        <button class="btn" id="themeToggle" title="Toggle theme">Copy</button>
+      </div>
+
+      <nav>
+        <ul class="toc" id="toc">
+          <li><a href="#overview">Overview</a></li>
+
+          <li><a href="#equipment-system">Equipment Rental System</a></li>
+          <li><a href="#equipment-entities">• Entities</a></li>
+          <li><a href="#equipment-dtos">• DTOs</a></li>
+          <li><a href="#equipment-controllers">• Controllers</a></li>
+          <li><a href="#equipment-services">• Services</a></li>
+          <li><a href="#equipment-api">• API Endpoints</a></li>
+
+          <li><a href="#auth-system">Authentication System</a></li>
+          <li><a href="#auth-architecture">• Architecture</a></li>
+          <li><a href="#auth-api">• API Endpoints</a></li>
+          <li><a href="#auth-data-models">• Data Models</a></li>
+          <li><a href="#auth-flows">• Business Flows</a></li>
+
+          <li><a href="#setup">Setup & Configuration</a></li>
+          <li><a href="#examples">Testing Examples</a></li>
+        </ul>
+      </nav>
+      <div style="height:18px"></div>
+      <div class="muted" style="font-size:12px">Last updated: 2025-12-19</div>
+    </aside>
+
+    <main>
+      <section class="card" id="overview">
+        <h2>Overview</h2>
+        <p class="meta">This single-documentation page covers two backend systems used by Warp5 Construction:</p>
+        <ul>
+          <li>Equipment Rental System — Spring Boot REST API for listing equipment, submitting rental requests, and managing approvals.</li>
+          <li>Authentication System — User registration, login, profile management, and password recovery for the application.</li>
+        </ul>
+      </section>
+
+      <!-- Equipment System -->
+      <section class="card" id="equipment-system">
+        <h2>Equipment Rental System</h2>
+        <p class="meta">Spring Boot REST API to manage equipment and rental requests.</p>
+
+        <h3 id="equipment-entities">Entities</h3>
+        <p class="muted">Core domain models used by the rental system.</p>
+        <table aria-label="Equipment fields">
+          <thead>
+            <tr><th>Entity / Field</th><th>Type & Notes</th></tr>
+          </thead>
+          <tbody>
+            <tr><td>Equipment</td><td>
+              id (Long, PK), name (String, required), ownerId (Long), ownerName (String), location (String),
+              imageOne/Two/Three (String urls), description (TEXT), price (double), rating (double 0-5),
+              availability (boolean), createdAt (LocalDateTime)
+            </td></tr>
+
+            <tr><td>RentalRequest</td><td>
+              id (Long, PK), equipmentId, equipmentName, renterId, renterName, ownerId,
+              rentalAmount (String), rentalEmail, rentalPhoneNumber, startDate (LocalDate),
+              endDate (LocalDate), status (String: PENDING/APPROVED/REJECTED), createdAt, updatedAt
+            </td></tr>
+          </tbody>
+        </table>
+
+        <h3 id="equipment-dtos">DTOs (Data Transfer Objects)</h3>
+        <ul>
+          <li>EquipmentRequest — for creating/updating equipment</li>
+          <li>EquipmentResponse — full equipment data for clients</li>
+          <li>RentalRequestCreateDto — used to create rental requests</li>
+          <li>RentalRequestResponse — full rental request data</li>
+          <li>RentalDecisionDto — { "decision": "APPROVED" | "REJECTED" }</li>
+        </ul>
+
+        <h3 id="equipment-controllers">Controllers</h3>
+        <ul>
+          <li>EquipmentController — Base path: /api/equipment
+            <ul>
+              <li>POST / — Create equipment</li>
+              <li>GET / — Get all equipment</li>
+              <li>GET /{id} — Get equipment by ID</li>
+            </ul>
+          </li>
+
+          <li>RentalRequestController — Base path: /api/rentals
+            <ul>
+              <li>POST / — Create a rental request</li>
+              <li>GET /owner/{ownerId} — Get requests for an owner</li>
+              <li>GET /renter/{renterId} — Get requests for a renter</li>
+              <li>PATCH /{id}/decision — Approve or reject a request</li>
+            </ul>
+          </li>
+        </ul>
+
+        <h3 id="equipment-services">Services</h3>
+        <p class="muted">Service interfaces + implementations:</p>
+        <ul>
+          <li>EquipmentService — createEquipment, getAllEquipment, getEquipmentById</li>
+          <li>EquipmentServiceImpl — DTO/entity mapping, repository operations</li>
+          <li>RentalRequestService — create, getRequestsForOwner, getRequestsForRenter, decide</li>
+          <li>RentalRequestServiceImpl — sets default PENDING status, validates decisions, updates timestamps</li>
+        </ul>
+
+        <h3 id="equipment-api">API Endpoints — Examples</h3>
+
+        <div class="grid-2">
+          <div class="endpoint">
+            <div><span class="method POST">POST</span><strong>/api/equipment</strong></div>
+            <div class="muted">Create Equipment — JSON body</div>
+            <pre><div class="code-toolbar"></div><code>{
+  "name": "Excavator",
+  "ownerId": 1,
+  "ownerName": "John Doe",
+  "location": "New York",
+  "description": "Large excavator for construction",
+  "price": 500.00,
+  "rating": 4.5,
+  "availability": true,
+  "imageOne": "url1.jpg",
+  "imageTwo": "url2.jpg",
+  "imageThree": "url3.jpg"
+}</code></pre>
+          </div>
+
+          <div class="endpoint">
+            <div><span class="method GET">GET</span><strong>/api/equipment</strong></div>
+            <div class="muted">Get all equipment</div>
+            <pre><div class="code-toolbar"></div><code>// GET /api/equipment
+// Returns: [ EquipmentResponse ]</code></pre>
+          </div>
+
+          <div class="endpoint">
+            <div><span class="method GET">GET</span><strong>/api/equipment/{id}</strong></div>
+            <div class="muted">Get equipment by ID</div>
+            <pre><div class="code-toolbar"></div><code>// GET /api/equipment/1
+// Returns: EquipmentResponse</code></pre>
+          </div>
+
+          <div class="endpoint">
+            <div><span class="method POST">POST</span><strong>/api/rentals</strong></div>
+            <div class="muted">Create Rental Request — JSON body</div>
+            <pre><div class="code-toolbar"></div><code>{
+  "equipmentId": 1,
+  "equipmentName": "Excavator",
+  "renterId": 2,
+  "renterName": "Jane Smith",
+  "ownerId": 1,
+  "rentalAmount": "500.00",
+  "rentalEmail": "jane@email.com",
+  "rentalPhoneNumber": "123-456-7890",
+  "startDate": "2024-12-01",
+  "endDate": "2024-12-07"
+}</code></pre>
+          </div>
+
+          <div class="endpoint">
+            <div><span class="method GET">GET</span><strong>/api/rentals/owner/{ownerId}</strong></div>
+            <div class="muted">Get requests for an owner</div>
+            <pre><div class="code-toolbar"></div><code>// GET /api/rentals/owner/1
+// Returns: [ RentalRequestResponse ]</code></pre>
+          </div>
+
+          <div class="endpoint">
+            <div><span class="method PATCH">PATCH</span><strong>/api/rentals/{id}/decision</strong></div>
+            <div class="muted">Approve or reject a request</div>
+            <pre><div class="code-toolbar"></div><code>{
+  "decision": "APPROVED" // or "REJECTED"
+}</code></pre>
+          </div>
+
+        </div>
+      </section>
+
+      <!-- Authentication System -->
+      <section class="card" id="auth-system">
+        <h2>Authentication System</h2>
+        <p class="meta">User management: registration, login, profile updates, password reset.</p>
+
+        <h3 id="auth-architecture">System Architecture & Stack</h3>
+        <ul>
+          <li>Backend: Java Spring Boot</li>
+          <li>Database: PostgreSQL</li>
+          <li>Security: BCrypt password hashing</li>
+          <li>HTTP: REST API</li>
+        </ul>
+
+        <h3 id="auth-data-models">Database Schema — users table</h3>
+        <pre><div class="code-toolbar"></div><code>CREATE TABLE users (
+  id SERIAL PRIMARY KEY,
+  first_name VARCHAR(50) NOT NULL,
+  last_name VARCHAR(50) NOT NULL,
+  date_of_birth DATE,
+  address_line1 VARCHAR(100),
+  address_line2 VARCHAR(100),
+  city VARCHAR(50),
+  phone_number VARCHAR(20) UNIQUE,
+  email VARCHAR(100) UNIQUE NOT NULL,
+  password VARCHAR(255) NOT NULL,
+  created_at TIMESTAMP,
+  reset_token VARCHAR(255),
+  auth_token VARCHAR(255)
+);</code></pre>
+
+        <h3 id="auth-api">API Endpoints</h3>
+        <p class="muted">Base URL: <span class="kbd">http://localhost:8080/api/auth</span></p>
+
+        <div class="grid-2">
+          <div class="endpoint">
+            <div><span class="method POST">POST</span><strong>/register</strong></div>
+            <div class="muted">User Registration</div>
+            <pre><div class="code-toolbar"></div><code>{
+  "firstName": "John",
+  "lastName": "Doe",
+  "dateOfBirth": "1990-01-15",
+  "addressLine1": "123 Main St",
+  "addressLine2": "Apt 4B",
+  "city": "New York",
+  "phoneNumber": "+1234567890",
+  "email": "john.doe@example.com",
+  "password": "SecurePass123!"
+}</code></pre>
+            <div class="muted">Response: User object (id, firstName, lastName, email, phoneNumber, createdAt)</div>
+          </div>
+
+          <div class="endpoint">
+            <div><span class="method POST">POST</span><strong>/login</strong></div>
+            <div class="muted">Login by email or phone</div>
+            <pre><div class="code-toolbar"></div><code>{
+  "loginId": "john.doe@example.com", // or phone number
+  "password": "SecurePass123!"
+}</code></pre>
+            <div class="muted">Response: User object with authentication token</div>
+          </div>
+
+          <div class="endpoint">
+            <div><span class="method PUT">PUT</span><strong>/update-profile/{userId}</strong></div>
+            <div class="muted">Update profile — only provided fields are updated</div>
+            <pre><div class="code-toolbar"></div><code>{
+  "firstName": "Jonathan",
+  "lastName": "Doe",
+  "email": "jonathan.doe@example.com",
+  "phoneNumber": "+1234567891",
+  "addressLine1": "456 Oak Avenue",
+  "city": "Boston"
+}</code></pre>
+          </div>
+
+          <div class="endpoint">
+            <div><span class="method POST">POST</span><strong>/forgot-password</strong></div>
+            <div class="muted">Generates a reset token and stores in user record</div>
+            <pre><div class="code-toolbar"></div><code>{
+  "emailOrPhone": "john.doe@example.com"
+}</code></pre>
+            <div class="muted">Response: Reset token (in production, token emailed/SMSed)</div>
+          </div>
+
+          <div class="endpoint">
+            <div><span class="method POST">POST</span><strong>/reset-password</strong></div>
+            <div class="muted">Reset password using token</div>
+            <pre><div class="code-toolbar"></div><code>{
+  "resetToken": "550e8400-e29b-41d4-a716-446655440000",
+  "newPassword": "NewSecurePass456!"
+}</code></pre>
+          </div>
+        </div>
+
+        <h3 id="auth-flows">Business Logic / Flows</h3>
+        <ul>
+          <li>User Registration: validate uniqueness, BCrypt-hash password, save user with createdAt timestamp</li>
+          <li>Login: detect login method (email vs phone), verify password using BCrypt, generate auth token, return user + token</li>
+          <li>Password Reset: generate UUID reset token, save to user, validate token at reset time, hash new password, clear reset token</li>
+        </ul>
+
+        <h3>Security</h3>
+        <ul>
+          <li>Passwords hashed with BCrypt + salt</li>
+          <li>Unique tokens for reset and auth</li>
+          <li>Validate uniqueness for email and phone</li>
+        </ul>
+      </section>
+
+      <section class="card" id="setup">
+        <h2>Setup & Configuration</h2>
+        <p class="muted">Prerequisites</p>
+        <ul>
+          <li>Java 17+</li>
+          <li>PostgreSQL 12+</li>
+          <li>Maven 3.6+</li>
+        </ul>
+
+        <h3>Installation Steps</h3>
+        <ol>
+          <li>Clone the repository</li>
+          <li>Configure database connection in application.properties</li>
+          <li>Run database migrations (schema provided)</li>
+          <li>Build: <span class="kbd">mvn clean install</span></li>
+          <li>Run: <span class="kbd">mvn spring-boot:run</span></li>
+        </ol>
+
+        <h3>Configuration (example)</h3>
+        <pre><div class="code-toolbar"></div><code>spring.datasource.url=jdbc:postgresql://localhost:5432/warp5_db
+spring.datasource.username=postgres
+spring.datasource.password=password
+spring.jpa.hibernate.ddl-auto=update</code></pre>
+      </section>
+
+      <section class="card" id="examples">
+        <h2>Testing Examples (cURL)</h2>
+
+        <h3>Register User</h3>
+        <pre><div class="code-toolbar"></div><code>curl -X POST http://localhost:8080/api/auth/register \
+  -H "Content-Type: application/json" \
+  -d '{
+    "firstName": "John",
+    "lastName": "Doe",
+    "email": "john@example.com",
+    "phoneNumber": "+1234567890",
+    "password": "password123"
+  }'</code></pre>
+
+        <h3>Login</h3>
+        <pre><div class="code-toolbar"></div><code>curl -X POST http://localhost:8080/api/auth/login \
+  -H "Content-Type: application/json" \
+  -d '{
+    "loginId": "john@example.com",
+    "password": "password123"
+  }'</code></pre>
+
+        <h3>Create Equipment</h3>
+        <pre><div class="code-toolbar"></div><code>curl -X POST http://localhost:8080/api/equipment \
+  -H "Content-Type: application/json" \
+  -d '{
+    "name":"Excavator",
+    "ownerId":1,
+    "ownerName":"John Doe",
+    "location":"New York",
+    "description":"Large excavator",
+    "price":500.0,
+    "availability":true
+  }'</code></pre>
+
+        <footer class="small">Tip: use an API client (Postman / HTTPie) and persist auth tokens returned at login for secured endpoints.</footer>
+      </section>
+
+      <footer class="small">Documentation generated for Warp5 Construction Backend — Equipment & Authentication systems.</footer>
+    </main>
+  </div>
+
+  <script>
+    // Add copy buttons to code blocks and wire functionality
+    (function(){
+      const preBlocks = document.querySelectorAll('pre');
+      preBlocks.forEach(pre => {
+        const toolbar = pre.querySelector('.code-toolbar');
+        if(!toolbar) return;
+        const copyBtn = document.createElement('button');
+        copyBtn.className = 'btn';
+        copyBtn.title = 'Copy code';
+        copyBtn.innerText = 'Copy';
+        toolbar.appendChild(copyBtn);
+
+        const expandBtn = document.createElement('button');
+        expandBtn.className = 'btn';
+        expandBtn.title = 'Toggle wrap';
+        expandBtn.innerText = 'Wrap';
+        toolbar.appendChild(expandBtn);
+
+        copyBtn.addEventListener('click', async () => {
+          const code = pre.innerText;
+          try {
+            await navigator.clipboard.writeText(code.trim());
+            copyBtn.innerText = 'Copied';
+            setTimeout(()=>copyBtn.innerText='Copy',1200);
+          } catch (e) {
+            copyBtn.innerText = 'Err';
+            console.error(e);
+            setTimeout(()=>copyBtn.innerText='Copy',1200);
+          }
+        });
+
+        expandBtn.addEventListener('click', () => {
+          const isWrapped = pre.style.whiteSpace === 'pre-wrap';
+          pre.style.whiteSpace = isWrapped ? 'pre' : 'pre-wrap';
+          expandBtn.innerText = isWrapped ? 'Wrap' : 'No Wrap';
+        });
+      });
+
+      // Search filter for TOC and headings
+      const search = document.getElementById('search');
+      search.addEventListener('input', (e) => {
+        const q = e.target.value.toLowerCase().trim();
+        const tocLinks = document.querySelectorAll('#toc a');
+        if(!q){
+          tocLinks.forEach(a => a.style.display='block');
+          return;
+        }
+        tocLinks.forEach(a=>{
+          const txt = a.textContent.toLowerCase();
+          a.style.display = txt.includes(q) ? 'block' : 'none';
+        });
+      });
+
+      // Smooth scrolling for internal links
+      document.querySelectorAll('a[href^="#"]').forEach(a=>{
+        a.addEventListener('click', (ev)=>{
+          ev.preventDefault();
+          const id = a.getAttribute('href').slice(1);
+          const el = document.getElementById(id);
+          if(el) el.scrollIntoView({behavior:'smooth', block:'start'});
+        });
+      });
+
+      // Theme button (just toggles copy button text as small demo)
+      const themeToggle = document.getElementById('themeToggle');
+      themeToggle.addEventListener('click', ()=>{
+        // quick feedback to user
+        themeToggle.innerText = 'Copied All';
+        setTimeout(()=>themeToggle.innerText='Copy',900);
+        // copy full page markdown/HTML to clipboard
+        navigator.clipboard && navigator.clipboard.writeText(document.documentElement.outerHTML).catch(()=>{});
+      });
+
+      // Add minimal keyboard help: press "/" to focus search
+      window.addEventListener('keydown', (e)=>{
+        if(e.key === '/' && document.activeElement.tagName !== 'INPUT' && document.activeElement.tagName !== 'TEXTAREA'){
+          e.preventDefault();
+          search.focus();
+        }
+      });
+    })();
+  </script>
+</body>
+</html>
