@@ -3,38 +3,31 @@ spring:
     name: warp5_construction_i
 
   datasource:
-    url: ${JDBC_DATABASE_URL}
-    username: ${JDBC_DATABASE_USERNAME}
-    password: ${JDBC_DATABASE_PASSWORD}
+    url: ${DATABASE_URL}           # Use Heroku-provided DATABASE_URL
     driver-class-name: org.postgresql.Driver
     initialization-mode: always
 
   jpa:
     hibernate:
-      ddl-auto: none          # Disable auto DDL since Flyway handles schema
+      ddl-auto: none               # Disable auto DDL since Flyway handles schema
     show-sql: false
     properties:
       hibernate:
         dialect: org.hibernate.dialect.PostgreSQLDialect
         format_sql: true
 
-
   paystack:
     secret-key: sk_test_xxxxxxxxxxxxx
     base-url: https://api.paystack.co
 
-
-
   flyway:
     enabled: true
-    baseline-on-migrate: true    # Useful if DB already has existing tables
+    baseline-on-migrate: true      # Useful if DB already has existing tables
     locations: classpath:db/migration
-    url: ${JDBC_DATABASE_URL}
-    user: ${JDBC_DATABASE_USERNAME}
-    password: ${JDBC_DATABASE_PASSWORD}
+    url: ${DATABASE_URL}           # Use DATABASE_URL, no need for user/password
 
 server:
-  port: ${PORT:8080}            # Heroku provides PORT automatically
+  port: ${PORT:8080}              # Heroku provides PORT automatically
 
 # Optional: logging
 logging:
