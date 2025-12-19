@@ -27,12 +27,19 @@ public class Equipment {
     private String name;
 
 
+    @Column(name = "owner_id", nullable = false)
     private Long ownerId;
+
+    @Column(name = "owner_name", nullable = false)
     private String ownerName;
+
     private String location;
     private String imageOne;
     private String imageTwo;
     private String imageThree;
+
+
+
 
     public String getImageOne() {
         return imageOne;
