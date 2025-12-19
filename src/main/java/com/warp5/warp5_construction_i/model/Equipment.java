@@ -23,7 +23,7 @@ public class Equipment {
     }
 
 
-    @Column(name = "equipment_name",nullable = false)
+    @Column(name = "name",nullable = false)
     private String name;
 
 
