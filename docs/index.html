@@ -224,7 +224,7 @@
         </ul>
       </nav>
       <div style="height:18px"></div>
-      <div class="muted" style="font-size:12px">Last updated: 2025-12-19</div>
+      <div class="muted" style="font-size:12px">Last updated: 2025-12-21</div>
     </aside>
 
     <main>
@@ -368,6 +368,99 @@
 }</code></pre>
           </div>
 
+          <!-- New Endpoints Added Below -->
+
+          <div class="endpoint">
+            <div><span class="method GET">GET</span><strong>/api/equipment/highly-rated</strong></div>
+            <div class="muted">Returns equipment sorted by highest rating (descending)</div>
+            <pre><div class="code-toolbar"></div><code>// Query params (optional)
+// limit: int (default 10)
+
+// Example:
+// GET /api/equipment/highly-rated?limit=6
+
+// Sample response:
+[
+  {
+    "id": 12,
+    "name": "Bulldozer",
+    "location": "Accra",
+    "price": 900.00,
+    "rating": 4.9,
+    "availability": true
+  }
+]</code></pre>
+          </div>
+
+          <div class="endpoint">
+            <div><span class="method GET">GET</span><strong>/api/equipment/most-viewed</strong></div>
+            <div class="muted">Returns equipment sorted by views (popularity)</div>
+            <pre><div class="code-toolbar"></div><code>// Query params (optional)
+// limit: int
+
+// Example:
+// GET /api/equipment/most-viewed?limit=5
+
+// Sample response:
+[
+  {
+    "id": 3,
+    "name": "Concrete Mixer",
+    "views": 342,
+    "location": "Kumasi",
+    "price": 250.00
+  }
+]</code></pre>
+          </div>
+
+          <div class="endpoint">
+            <div><span class="method GET">GET</span><strong>/api/equipment/{id}/recommendations</strong></div>
+            <div class="muted">“You Might Also Like” — similar equipment by location & price</div>
+            <pre><div class="code-toolbar"></div><code>// Query params (optional)
+// limit: int
+
+// Example:
+// GET /api/equipment/1/recommendations?limit=6
+
+// Sample response:
+[
+  {
+    "id": 5,
+    "name": "Mini Excavator",
+    "location": "Takoradi",
+    "price": 480.00,
+    "rating": 4.3
+  }
+]</code></pre>
+          </div>
+
+          <div class="endpoint">
+            <div><span class="method GET">GET</span><strong>/api/equipment/search</strong></div>
+            <div class="muted">Search & filter equipment (all params optional)</div>
+            <pre><div class="code-toolbar"></div><code>// Query params:
+// location (string)
+// minPrice (double)
+// maxPrice (double)
+// minRating (double)
+// keyword (string)
+
+// Examples:
+// GET /api/equipment/search?location=Accra
+// GET /api/equipment/search?minPrice=500&maxPrice=1500
+// GET /api/equipment/search?location=Kumasi&minRating=4
+
+// Sample response:
+[
+  {
+    "id": 8,
+    "name": "Wheel Loader",
+    "location": "Kumasi",
+    "price": 1200.00,
+    "rating": 4.6
+  }
+]</code></pre>
+          </div>
+
         </div>
       </section>
 
@@ -398,11 +491,12 @@
   password VARCHAR(255) NOT NULL,
   created_at TIMESTAMP,
   reset_token VARCHAR(255),
-  auth_token VARCHAR(255)
+  auth_token VARCHAR(255),
+  account_type VARCHAR(50)
 );</code></pre>
 
         <h3 id="auth-api">API Endpoints</h3>
-        <p class="muted">Base URL: <span class="kbd">http://localhost:8080/api/auth</span></p>
+        <p class="muted">Base URL: <span class="kbd">https://warp5-5b91b7516e79.herokuapp.com/api/auth</span></p>
 
         <div class="grid-2">
           <div class="endpoint">
@@ -417,7 +511,8 @@
   "city": "New York",
   "phoneNumber": "+1234567890",
   "email": "john.doe@example.com",
-  "password": "SecurePass123!"
+  "password": "SecurePass123!",
+  "account_type": "hirer"
 }</code></pre>
             <div class="muted">Response: User object (id, firstName, lastName, email, phoneNumber, createdAt)</div>
           </div>
