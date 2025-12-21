@@ -13,6 +13,15 @@ public class UpdateProfileRequest {
     private String addressLine1;
     private String addressLine2;
     private String city;
+    private String accountType;
+
+    public String getAccountType() {
+        return accountType;
+    }
+
+    public void setAccountType(String accountType) {
+        this.accountType = accountType;
+    }
 
     private String phoneNumber;
     private String email;

@@ -15,6 +15,17 @@ public class User {
     private String firstName;
     private String lastName;
 
+    public String getAccountType() {
+        return accountType;
+    }
+
+    public void setAccountType(String accountType) {
+        this.accountType = accountType;
+    }
+
+    @Column(name = "account_type", nullable = true)
+    private String accountType;
+
     private String dateOfBirth;
 
     private String addressLine1;

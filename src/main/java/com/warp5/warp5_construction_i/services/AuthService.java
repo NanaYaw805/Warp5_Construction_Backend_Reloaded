@@ -47,6 +47,7 @@ public class AuthService {
         user.setEmail(request.getEmail());
         user.setPassword(passwordEncoder.encode(request.getPassword()));
         user.setCreatedAt(LocalDate.now());
+        user.setAccountType(request.getAccountType());
 
         return userRepository.save(user);
     }
@@ -95,6 +96,7 @@ public class AuthService {
         if (request.getCity() != null) user.setCity(request.getCity());
         if (request.getPhoneNumber() != null) user.setPhoneNumber(request.getPhoneNumber());
         if (request.getEmail() != null) user.setEmail(request.getEmail());
+        if (request.getAccountType()!=null) user.setAccountType(request.getAccountType());
 
         return userRepository.save(user);
     }

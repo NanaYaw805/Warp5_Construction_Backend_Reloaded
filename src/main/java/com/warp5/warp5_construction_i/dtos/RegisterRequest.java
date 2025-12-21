@@ -12,8 +12,16 @@ public class RegisterRequest {
     private String phoneNumber;
     private String email;
     private String password;
+    private String accountType;
 
-    //getter and setters
+    public String getAccountType() {
+        return accountType;
+    }
+
+    public void setAccountType(String accountType) {
+        this.accountType = accountType;
+    }
+//getter and setters
 
     public String getFirstName() {
         return firstName;
