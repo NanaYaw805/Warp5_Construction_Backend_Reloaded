@@ -1,0 +1,2 @@
+ALTER TABLE equipment
+ADD COLUMN view_count BIGINT DEFAULT 0;

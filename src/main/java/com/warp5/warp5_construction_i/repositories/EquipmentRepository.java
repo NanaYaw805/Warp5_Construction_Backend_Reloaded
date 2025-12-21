@@ -1,6 +1,7 @@
 package com.warp5.warp5_construction_i.repositories;
 
 import com.warp5.warp5_construction_i.model.Equipment;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
@@ -17,5 +18,13 @@ public interface EquipmentRepository extends JpaRepository<Equipment, Long> {
             ORDER BY e.rating DESC
             """)
     List<Equipment> findHighlyRated(double minRating);
+
+
+    @Query("""
+    SELECT e FROM Equipment e
+    ORDER BY e.viewCount DESC
+""")
+    List<Equipment> findMostViewed(Pageable pageable);
+
 
 }

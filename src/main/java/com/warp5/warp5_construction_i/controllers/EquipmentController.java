@@ -40,5 +40,12 @@ public class EquipmentController {
         return equipmentService.getHighlyRatedEquipment(minRating);
     }
 
+    @GetMapping("/most-viewed")
+    public ResponseEntity<List<EquipmentResponse>> getMostViewed(
+            @RequestParam(defaultValue = "10") int limit
+    ){
+        return ResponseEntity.ok(equipmentService.getMostViewed(limit));
+    }
+
 
 }

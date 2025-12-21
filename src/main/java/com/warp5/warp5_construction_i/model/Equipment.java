@@ -33,6 +33,17 @@ public class Equipment {
     @Column(name = "image_three")
     private String imageThree;
 
+    public Long getViewCount() {
+        return viewCount;
+    }
+
+    public void setViewCount(Long viewCount) {
+        this.viewCount = viewCount;
+    }
+
+    @Column(name = "view_count")
+    private Long viewCount = 0L;
+
     @Column(name = "description", columnDefinition = "TEXT")
     private String description;
 

@@ -5,7 +5,9 @@ import com.warp5.warp5_construction_i.dtos.EquipmentResponse;
 import com.warp5.warp5_construction_i.model.Equipment;
 import com.warp5.warp5_construction_i.repositories.EquipmentRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -49,9 +51,14 @@ public class EquipmentServiceImpl implements EquipmentService {
     }
 
     @Override
+    @Transactional
     public EquipmentResponse getEquipmentById(Long id) {
         Equipment equipment = equipmentRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Equipment not found"));
+
+        equipment.setViewCount(equipment.getViewCount() + 1);
+        equipmentRepository.save(equipment);
+
         return mapToResponse(equipment);
     }
 
@@ -62,6 +69,13 @@ public class EquipmentServiceImpl implements EquipmentService {
                .map(this::mapToResponse)
                .toList();
 
+    }
+
+    @Override
+    public List<EquipmentResponse> getMostViewed(int limit) {
+        return equipmentRepository.findMostViewed(PageRequest.of(0, limit))
+                .stream()
+                .map(this::mapToResponse).toList();
     }
 
     private EquipmentResponse mapToResponse(Equipment equipment) {
