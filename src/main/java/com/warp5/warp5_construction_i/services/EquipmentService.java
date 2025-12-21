@@ -12,4 +12,6 @@ public interface EquipmentService {
     List<EquipmentResponse> getAllEquipment();
 
     EquipmentResponse getEquipmentById(Long id);
+
+    List<EquipmentResponse> getHighlyRatedEquipment(double minRating);
 }

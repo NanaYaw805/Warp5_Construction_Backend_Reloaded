@@ -55,6 +55,15 @@ public class EquipmentServiceImpl implements EquipmentService {
         return mapToResponse(equipment);
     }
 
+    @Override
+    public List<EquipmentResponse> getHighlyRatedEquipment(double minRating) {
+       return  equipmentRepository.findHighlyRated(minRating)
+               .stream()
+               .map(this::mapToResponse)
+               .toList();
+
+    }
+
     private EquipmentResponse mapToResponse(Equipment equipment) {
         EquipmentResponse response = new EquipmentResponse();
         response.setId(equipment.getId());

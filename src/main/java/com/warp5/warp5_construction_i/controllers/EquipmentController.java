@@ -33,5 +33,12 @@ public class EquipmentController {
         return ResponseEntity.ok(equipmentService.getEquipmentById(id));
     }
 
+    @GetMapping("/highly-rated")
+    public List<EquipmentResponse> getHighlyRatedEquipment(
+            @RequestParam(defaultValue = "4.0") double minRating
+    ) {
+        return equipmentService.getHighlyRatedEquipment(minRating);
+    }
+
 
 }
