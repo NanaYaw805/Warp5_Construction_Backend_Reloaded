@@ -26,5 +26,19 @@ public interface EquipmentRepository extends JpaRepository<Equipment, Long> {
 """)
     List<Equipment> findMostViewed(Pageable pageable);
 
+    @Query("""
+    SELECT e FROM Equipment e
+    WHERE e.id <> :id
+      AND (:location IS NULL OR e.location = :location)
+      AND e.price BETWEEN :minPrice AND :maxPrice
+    ORDER BY e.rating DESC
+""")
+    List<Equipment> findRecommended(
+            Long id,
+            String location,
+            Double minPrice,
+            Double maxPrice,
+            Pageable pageable
+    );
 
 }

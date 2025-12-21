@@ -18,4 +18,8 @@ public interface EquipmentService {
     List<EquipmentResponse> getHighlyRatedEquipment(double minRating);
 
     List<EquipmentResponse> getMostViewed(int limit);
+
+    public List<EquipmentResponse> getRecommendations(
+            Long id, int limit
+    );
 }

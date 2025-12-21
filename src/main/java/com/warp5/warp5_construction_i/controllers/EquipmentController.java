@@ -47,5 +47,14 @@ public class EquipmentController {
         return ResponseEntity.ok(equipmentService.getMostViewed(limit));
     }
 
+    @GetMapping("/{id}/recommendations")
+    public ResponseEntity<List<EquipmentResponse>> getRecommendations(
+            @PathVariable Long id,
+            @RequestParam(defaultValue = "6") int limit
+    ) {
+        return ResponseEntity.ok(equipmentService.getRecommendations(id, limit));
+    }
+
+
 
 }

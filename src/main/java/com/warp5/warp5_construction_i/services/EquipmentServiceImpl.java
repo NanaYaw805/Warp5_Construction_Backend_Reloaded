@@ -78,6 +78,26 @@ public class EquipmentServiceImpl implements EquipmentService {
                 .map(this::mapToResponse).toList();
     }
 
+    @Override
+    public List<EquipmentResponse> getRecommendations(Long id, int limit) {
+        Equipment base = equipmentRepository.findById(id).orElseThrow(()->new RuntimeException("Equipment not found"));
+
+    double price = base.getPrice();
+    double range = price * 0.3;
+
+    return equipmentRepository.findRecommended(
+            id,
+            base.getLocation(),
+            price - range,
+            price + range,
+            PageRequest.of(0,limit)
+    )
+            .stream()
+            .map(this::mapToResponse)
+            .toList();
+
+    }
+
     private EquipmentResponse mapToResponse(Equipment equipment) {
         EquipmentResponse response = new EquipmentResponse();
         response.setId(equipment.getId());
