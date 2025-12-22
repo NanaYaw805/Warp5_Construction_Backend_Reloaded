@@ -51,7 +51,7 @@ public interface EquipmentRepository extends JpaRepository<Equipment, Long> {
           AND (:location IS NULL OR LOWER(e.location) = LOWER(:location))
           AND (:minPrice IS NULL OR e.price >= :minPrice)
           AND (:maxPrice IS NULL OR e.price <= :maxPrice)
-          AND (:minRating IS NULL OR e.serviceRating >= :minRating)
+          AND (:minRating IS NULL OR e.rating >= :minRating)
         ORDER BY e.rating DESC
     """)
         Page<Equipment> searchEquipment(
