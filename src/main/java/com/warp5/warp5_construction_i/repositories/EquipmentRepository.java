@@ -52,7 +52,7 @@ public interface EquipmentRepository extends JpaRepository<Equipment, Long> {
           AND (:minPrice IS NULL OR e.price >= :minPrice)
           AND (:maxPrice IS NULL OR e.price <= :maxPrice)
           AND (:minRating IS NULL OR e.rating >= :minRating)
-        ORDER BY e.rating DESC
+        ORDER BY e.location DESC
     """)
         Page<Equipment> searchEquipment(
                 @Param("name") String name,
