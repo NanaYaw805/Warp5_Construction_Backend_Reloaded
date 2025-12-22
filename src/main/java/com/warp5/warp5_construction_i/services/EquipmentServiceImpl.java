@@ -5,7 +5,9 @@ import com.warp5.warp5_construction_i.dtos.EquipmentResponse;
 import com.warp5.warp5_construction_i.model.Equipment;
 import com.warp5.warp5_construction_i.repositories.EquipmentRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -96,6 +98,14 @@ public class EquipmentServiceImpl implements EquipmentService {
             .map(this::mapToResponse)
             .toList();
 
+    }
+
+    @Override
+    public Page<EquipmentResponse> searchEquipment(String name, String location, Double minPrice, Double maxPrice, Double minRating, int page, int size) {
+        Pageable pageable = PageRequest.of(page,size);
+
+        return equipmentRepository.searchEquipment(name,location,minPrice,maxPrice,minRating,pageable)
+                .map(this::mapToResponse);
     }
 
     private EquipmentResponse mapToResponse(Equipment equipment) {

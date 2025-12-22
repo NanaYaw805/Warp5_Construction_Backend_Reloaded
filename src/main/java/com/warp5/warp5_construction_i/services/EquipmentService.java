@@ -3,6 +3,7 @@ package com.warp5.warp5_construction_i.services;
 import com.warp5.warp5_construction_i.dtos.EquipmentRequest;
 import com.warp5.warp5_construction_i.dtos.EquipmentResponse;
 import jakarta.transaction.Transactional;
+import org.springframework.data.domain.Page;
 
 import java.util.List;
 
@@ -21,5 +22,15 @@ public interface EquipmentService {
 
     public List<EquipmentResponse> getRecommendations(
             Long id, int limit
+    );
+
+    public Page<EquipmentResponse> searchEquipment(
+      String name,
+      String location,
+      Double minPrice,
+      Double maxPrice,
+      Double minRating,
+      int page,
+      int size
     );
 }

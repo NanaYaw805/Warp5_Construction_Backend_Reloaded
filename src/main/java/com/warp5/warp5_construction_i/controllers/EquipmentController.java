@@ -3,6 +3,7 @@ package com.warp5.warp5_construction_i.controllers;
 import com.warp5.warp5_construction_i.dtos.EquipmentRequest;
 import com.warp5.warp5_construction_i.dtos.EquipmentResponse;
 import com.warp5.warp5_construction_i.services.EquipmentService;
+import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -53,6 +54,23 @@ public class EquipmentController {
             @RequestParam(defaultValue = "6") int limit
     ) {
         return ResponseEntity.ok(equipmentService.getRecommendations(id, limit));
+    }
+
+
+
+    @GetMapping("/search")
+    public Page<EquipmentResponse> searchEquipment(
+            @RequestParam(required = false) String name,
+            @RequestParam(required = false) String location,
+            @RequestParam(required = false) Double minPrice,
+            @RequestParam(required = false) Double maxPrice,
+            @RequestParam(required = false) Double minRating,
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "10") int size
+    ) {
+        return equipmentService.searchEquipment(
+                name, location, minPrice, maxPrice, minRating, page, size
+        );
     }
 
 
