@@ -1,0 +1,3 @@
+ALTER TABLE equipment
+ADD COLUMN IF NOT EXISTS view_count BIGINT DEFAULT 0;
+
