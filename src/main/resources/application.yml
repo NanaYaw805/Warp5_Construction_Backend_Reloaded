@@ -7,7 +7,7 @@ spring:
 
   jpa:
     hibernate:
-      ddl-auto: validate        # Disable auto DDL since Flyway handles schema
+      ddl-auto: none        # Disable auto DDL since Flyway handles schema
     show-sql: false
     properties:
       hibernate:
