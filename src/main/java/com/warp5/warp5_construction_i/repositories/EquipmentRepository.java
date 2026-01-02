@@ -58,9 +58,9 @@ public interface EquipmentRepository extends JpaRepository<Equipment, Long> {
     SELECT COUNT(e) FROM Equipment e
     WHERE (:name IS NULL OR LOWER(e.name) LIKE LOWER(CONCAT('%', :name, '%')))
     AND (:location IS NULL OR LOWER(e.location) = LOWER(:location))
-    AND (:minPrice IS NULL OR e.priceRate IS NOT NULL AND e.price >= :minPrice)
-    AND (:maxPrice IS NULL OR e.priceRate IS NOT NULL AND e.price <= :maxPrice)
-    AND (:minRating IS NULL OR e.serviceRating IS NOT NULL AND e.rating >= :minRating)
+    AND (:minPrice IS NULL OR e.price IS NOT NULL AND e.price >= :minPrice)
+    AND (:maxPrice IS NULL OR e.price IS NOT NULL AND e.price <= :maxPrice)
+    AND (:minRating IS NULL OR e.rating IS NOT NULL AND e.rating >= :minRating)
     """
     )
     Page<Equipment> searchEquipment(
