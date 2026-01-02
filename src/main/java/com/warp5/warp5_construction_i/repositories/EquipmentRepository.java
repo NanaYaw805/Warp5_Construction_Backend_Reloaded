@@ -49,18 +49,18 @@ public interface EquipmentRepository extends JpaRepository<Equipment, Long> {
             value = """
     SELECT e FROM Equipment e
     WHERE (:name IS NULL OR LOWER(e.name) LIKE LOWER(CONCAT('%', :name, '%')))
-    AND (:location IS NULL OR LOWER(e.location) = LOWER(:location))
-    AND (:minPrice IS NULL OR e.price IS NOT NULL AND e.price >= :minPrice)
-    AND (:maxPrice IS NULL OR e.price IS NOT NULL AND e.price <= :maxPrice)
-    AND (:minRating IS NULL OR e.rating IS NOT NULL AND e.rating >= :minRating)
+      AND (:location IS NULL OR LOWER(e.location) = LOWER(:location))
+      AND e.price >= COALESCE(:minPrice, e.price)
+      AND e.price <= COALESCE(:maxPrice, e.price)
+      AND e.rating >= COALESCE(:minRating, e.rating)
     """,
             countQuery = """
     SELECT COUNT(e) FROM Equipment e
     WHERE (:name IS NULL OR LOWER(e.name) LIKE LOWER(CONCAT('%', :name, '%')))
-    AND (:location IS NULL OR LOWER(e.location) = LOWER(:location))
-    AND (:minPrice IS NULL OR e.price IS NOT NULL AND e.price >= :minPrice)
-    AND (:maxPrice IS NULL OR e.price IS NOT NULL AND e.price <= :maxPrice)
-    AND (:minRating IS NULL OR e.rating IS NOT NULL AND e.rating >= :minRating)
+      AND (:location IS NULL OR LOWER(e.location) = LOWER(:location))
+      AND e.price >= COALESCE(:minPrice, e.price)
+      AND e.price <= COALESCE(:maxPrice, e.price)
+      AND e.rating >= COALESCE(:minRating, e.rating)
     """
     )
     Page<Equipment> searchEquipment(
