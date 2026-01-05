@@ -48,16 +48,16 @@ public interface EquipmentRepository extends JpaRepository<Equipment, Long> {
     @Query(
             value = """
     SELECT e FROM Equipment e
-    WHERE (:name IS NULL OR LOWER(e.name) LIKE LOWER(CONCAT('%', :name, '%')))
-      AND (:location IS NULL OR LOWER(e.location) = LOWER(:location))
+    WHERE (:name IS NULL OR LOWER(e.name) LIKE LOWER(CONCAT('%', COALESCE(:name, ''), '%')))
+      AND (:location IS NULL OR LOWER(e.location) = LOWER(COALESCE(:location, '')))
       AND e.price >= COALESCE(:minPrice, e.price)
       AND e.price <= COALESCE(:maxPrice, e.price)
       AND e.rating >= COALESCE(:minRating, e.rating)
     """,
             countQuery = """
     SELECT COUNT(e) FROM Equipment e
-    WHERE (:name IS NULL OR LOWER(e.name) LIKE LOWER(CONCAT('%', :name, '%')))
-      AND (:location IS NULL OR LOWER(e.location) = LOWER(:location))
+    WHERE (:name IS NULL OR LOWER(e.name) LIKE LOWER(CONCAT('%', COALESCE(:name, ''), '%')))
+      AND (:location IS NULL OR LOWER(e.location) = LOWER(COALESCE(:location, '')))
       AND e.price >= COALESCE(:minPrice, e.price)
       AND e.price <= COALESCE(:maxPrice, e.price)
       AND e.rating >= COALESCE(:minRating, e.rating)
@@ -71,7 +71,6 @@ public interface EquipmentRepository extends JpaRepository<Equipment, Long> {
             @Param("minRating") Double minRating,
             Pageable pageable
     );
-
 }
 
 
