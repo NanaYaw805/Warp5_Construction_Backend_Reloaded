@@ -3,6 +3,13 @@ spring:
     url: ${JDBC_DATABASE_URL}
     username: ${JDBC_DATABASE_USERNAME}
     password: ${JDBC_DATABASE_PASSWORD}
+    hikari:
+      idle-timeout: 30000      # 30 seconds - close idle conns before Heroku kills the socket
+      max-lifetime: 1800000    # 30 minutes - force rotate connections periodically
+      connection-timeout: 30000
+      validation-timeout: 5000
+      leak-detection-threshold: 60000
+      connection-test-query: SELECT 1
 
 
   jpa:
