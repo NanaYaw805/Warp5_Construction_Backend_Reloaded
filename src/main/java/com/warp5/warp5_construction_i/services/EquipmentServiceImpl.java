@@ -101,11 +101,11 @@ public class EquipmentServiceImpl implements EquipmentService {
     }
 
     @Override
-    public Page<EquipmentResponse> searchEquipment(String name, String location, Double minPrice, Double maxPrice, Double minRating, int page, int size) {
+    public List<EquipmentResponse> searchEquipment(String name, String location, Double minPrice, Double maxPrice, Double minRating, int page, int size) {
         Pageable pageable = PageRequest.of(page,size);
 
         return equipmentRepository.searchEquipment(name,location,minPrice,maxPrice,minRating,pageable)
-                .map(this::mapToResponse);
+                .stream().map(this::mapToResponse).toList();
     }
 
     private EquipmentResponse mapToResponse(Equipment equipment) {

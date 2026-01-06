@@ -1,5 +1,6 @@
 package com.warp5.warp5_construction_i.repositories;
 
+import com.warp5.warp5_construction_i.dtos.EquipmentResponse;
 import com.warp5.warp5_construction_i.model.Equipment;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -63,7 +64,7 @@ public interface EquipmentRepository extends JpaRepository<Equipment, Long> {
       AND e.rating >= COALESCE(:minRating, e.rating)
     """
     )
-    Page<Equipment> searchEquipment(
+    List<Equipment> searchEquipment(
             @Param("name") String name,
             @Param("location") String location,
             @Param("minPrice") Double minPrice,

@@ -2,6 +2,7 @@ package com.warp5.warp5_construction_i.services;
 
 import com.warp5.warp5_construction_i.dtos.EquipmentRequest;
 import com.warp5.warp5_construction_i.dtos.EquipmentResponse;
+import com.warp5.warp5_construction_i.model.Equipment;
 import jakarta.transaction.Transactional;
 import org.springframework.data.domain.Page;
 
@@ -24,7 +25,7 @@ public interface EquipmentService {
             Long id, int limit
     );
 
-    public Page<EquipmentResponse> searchEquipment(
+    public List<EquipmentResponse> searchEquipment(
       String name,
       String location,
       Double minPrice,

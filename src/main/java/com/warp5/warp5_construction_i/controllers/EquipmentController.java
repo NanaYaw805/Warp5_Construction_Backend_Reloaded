@@ -2,6 +2,7 @@ package com.warp5.warp5_construction_i.controllers;
 
 import com.warp5.warp5_construction_i.dtos.EquipmentRequest;
 import com.warp5.warp5_construction_i.dtos.EquipmentResponse;
+import com.warp5.warp5_construction_i.model.Equipment;
 import com.warp5.warp5_construction_i.services.EquipmentService;
 import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
@@ -59,7 +60,7 @@ public class EquipmentController {
 
 
     @GetMapping("/search")
-    public Page<EquipmentResponse> searchEquipment(
+    public ResponseEntity<List<EquipmentResponse>> searchEquipment(
             @RequestParam(required = false) String name,
             @RequestParam(required = false) String location,
             @RequestParam(required = false) Double minPrice,
@@ -68,8 +69,8 @@ public class EquipmentController {
             @RequestParam(defaultValue = "0") int page,
             @RequestParam(defaultValue = "10") int size
     ) {
-        return equipmentService.searchEquipment(
-                name, location, minPrice, maxPrice, minRating, page, size
+        return ResponseEntity.ok(equipmentService.searchEquipment(
+                name, location, minPrice, maxPrice, minRating, page, size)
         );
     }
 
