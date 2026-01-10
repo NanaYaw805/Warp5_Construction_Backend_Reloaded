@@ -4,7 +4,7 @@ public class PaymentRequest {
     private Long renterId;
     private  Long ownerId;
     private String renterName;
-    private Double Amount;
+    private Double amount;
     private String email;
 
     public String getEmail() {
@@ -40,10 +40,10 @@ public class PaymentRequest {
     }
 
     public Double getAmount() {
-        return Amount;
+        return amount;
     }
 
     public void setAmount(Double amount) {
-        Amount = amount;
+        this.amount = amount;
     }
 }
