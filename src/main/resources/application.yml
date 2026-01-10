@@ -23,7 +23,7 @@ spring:
 
 
   paystack:
-    secret-key: sk_test_xxxxxxxxxxxxx
+    secret-key: sk_live_964377be3e9e01cad184b88d93547b1294b4b8e2
     base-url: https://api.paystack.co
 
 

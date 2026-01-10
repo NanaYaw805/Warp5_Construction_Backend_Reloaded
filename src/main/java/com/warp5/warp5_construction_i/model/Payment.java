@@ -6,13 +6,14 @@ import jakarta.persistence.*;
 import java.time.LocalDateTime;
 
 @Entity
-@Table(name = "payments")
+@Table(name = "payment")
 public class Payment {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @Column(name = "rental_request_id",nullable = true)
     private Long rentalRequestId;
 
     private Long renterId;
@@ -51,6 +52,7 @@ public class Payment {
 
     private LocalDateTime createdAt = LocalDateTime.now();
 
+    private String currency = "GHS";
     // getters & setters
 
 
