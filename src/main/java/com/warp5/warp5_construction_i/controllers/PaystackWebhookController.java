@@ -3,6 +3,7 @@ package com.warp5.warp5_construction_i.controllers;
 import com.warp5.warp5_construction_i.dtos.PaymentRequest;
 import com.warp5.warp5_construction_i.dtos.PaymentResponse;
 import com.warp5.warp5_construction_i.services.PaymentService;
+
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.springframework.http.HttpStatus;
@@ -24,7 +25,7 @@ public class PaystackWebhookController {
     public ResponseEntity<String> handleWebhook(
             @RequestBody String payload,
             @RequestHeader("x-paystack-signature") String signature
-    ) throws JSONException {
+    ) throws JSONException{
         if (!isValidSignature(payload, signature)) {
             return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
         }
