@@ -2,6 +2,9 @@ package com.warp5.warp5_construction_i.services;
 
 import com.warp5.warp5_construction_i.dtos.PaymentResponse;
 import com.warp5.warp5_construction_i.dtos.PaystackInitializeResponse;
+import com.warp5.warp5_construction_i.enums.PaymentStatus;
+import com.warp5.warp5_construction_i.model.Payment;
+import com.warp5.warp5_construction_i.repositories.PaymentRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.UUID;
@@ -10,9 +13,11 @@ import java.util.UUID;
 public class PaymentService {
 
     private final PaystackClient paystackClient;
+    private final PaymentRepository paymentRepository;
 
-    public PaymentService(PaystackClient paystackClient) {
+    public PaymentService(PaystackClient paystackClient, PaymentRepository paymentRepository) {
         this.paystackClient = paystackClient;
+        this.paymentRepository = paymentRepository;
     }
 
     public PaymentResponse initiatePayment(
@@ -23,6 +28,15 @@ public class PaymentService {
             double rentalAmount
     ) {
         String reference = "WARP5_" + UUID.randomUUID();
+
+        // 1. Save payment first
+        Payment payment = new Payment();
+        payment.setOwnerId(ownerId);
+        payment.setRenterId(renterId);
+        payment.setAmount(rentalAmount);
+        payment.setReference(reference);
+        payment.setStatus(PaymentStatus.PENDING);
+        payment.setPaymentProvider("PAYSTACK");
 
         PaystackInitializeResponse paystackResponse =
                 paystackClient.initializeTransaction(
