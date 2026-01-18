@@ -1,0 +1,11 @@
+ALTER TABLE reservations
+ADD COLUMN IF NOT EXISTS rental_amount DOUBLE PRECISION;
+
+ALTER TABLE reservations
+ADD COLUMN IF NOT EXISTS start_date DATE;
+
+ALTER TABLE reservations
+ADD COLUMN IF NOT EXISTS end_date DATE;
+
+ALTER TABLE reservations
+ADD COLUMN IF NOT EXISTS updated_at TIMESTAMP;

@@ -33,12 +33,15 @@ public class DashboardService {
                 .toList();
     }
 
-    private ReservationDashboardResponse mapToDashboard(Reservation reservation){
-        return new ReservationDashboardResponse(
-                reservation.getId(),
-                reservation.getEquipmentName(),
-                reservation.getStatus().name()
-        );
+    private ReservationDashboardResponse mapToDashboard(Reservation reservation) {
+        ReservationDashboardResponse response = new ReservationDashboardResponse();
+        response.setOrderId(reservation.getId());
+        response.setEquipmentName(reservation.getEquipmentName());
+        response.setRentalAmount(reservation.getRentalAmount());
+        response.setStatus(reservation.getStatus());
+        response.setStartDate(reservation.getStartDate());
+        response.setEndDate(reservation.getEndDate());
+        return response;
     }
 
 }

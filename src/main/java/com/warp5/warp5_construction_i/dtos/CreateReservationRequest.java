@@ -1,5 +1,7 @@
 package com.warp5.warp5_construction_i.dtos;
 
+import java.time.LocalDate;
+
 public class CreateReservationRequest {
 
     private Long equipmentId;
@@ -7,6 +9,11 @@ public class CreateReservationRequest {
     private Long renterId;
     private Long ownerId;
 
+
+
+    private Double rentalAmount;
+    private LocalDate startDate;
+    private LocalDate endDate;
     // getters & setters
 
     public Long getEquipmentId() {
@@ -39,5 +46,29 @@ public class CreateReservationRequest {
 
     public void setOwnerId(Long ownerId) {
         this.ownerId = ownerId;
+    }
+
+    public Double getRentalAmount() {
+        return rentalAmount;
+    }
+
+    public void setRentalAmount(Double rentalAmount) {
+        this.rentalAmount = rentalAmount;
+    }
+
+    public LocalDate getStartDate() {
+        return startDate;
+    }
+
+    public void setStartDate(LocalDate startDate) {
+        this.startDate = startDate;
+    }
+
+    public LocalDate getEndDate() {
+        return endDate;
+    }
+
+    public void setEndDate(LocalDate endDate) {
+        this.endDate = endDate;
     }
 }

@@ -3,6 +3,7 @@ package com.warp5.warp5_construction_i.model;
 import com.warp5.warp5_construction_i.enums.ReservationStatus;
 import jakarta.persistence.*;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 @Entity
@@ -28,7 +29,45 @@ public class Reservation {
     @Enumerated(EnumType.STRING)
     private ReservationStatus status;
 
+    private LocalDate startDate;
+    private LocalDate endDate;
+
+    private Double rentalAmount;
+
+    public Double getRentalAmount() {
+        return rentalAmount;
+    }
+
+    public void setRentalAmount(Double rentalAmount) {
+        this.rentalAmount = rentalAmount;
+    }
+
+    public LocalDate getStartDate() {
+        return startDate;
+    }
+
+    public void setStartDate(LocalDate startDate) {
+        this.startDate = startDate;
+    }
+
+    public LocalDate getEndDate() {
+        return endDate;
+    }
+
+    public void setEndDate(LocalDate endDate) {
+        this.endDate = endDate;
+    }
+
+    public LocalDateTime getUpdatedAt() {
+        return updatedAt;
+    }
+
+    public void setUpdatedAt(LocalDateTime updatedAt) {
+        this.updatedAt = updatedAt;
+    }
+
     private LocalDateTime createdAt = LocalDateTime.now();
+    private LocalDateTime updatedAt;
 
     public Long getId() {
         return id;
