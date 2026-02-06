@@ -108,6 +108,11 @@ public class EquipmentServiceImpl implements EquipmentService {
                 .stream().map(this::mapToResponse).toList();
     }
 
+    @Override
+    public void deleteAllEquipments() {
+        equipmentRepository.deleteAll();
+    }
+
     private EquipmentResponse mapToResponse(Equipment equipment) {
         EquipmentResponse response = new EquipmentResponse();
         response.setId(equipment.getId());

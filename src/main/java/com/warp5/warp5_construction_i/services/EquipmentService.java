@@ -34,4 +34,6 @@ public interface EquipmentService {
       int page,
       int size
     );
+
+    public void deleteAllEquipments();
 }

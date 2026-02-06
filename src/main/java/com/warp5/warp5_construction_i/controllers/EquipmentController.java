@@ -57,6 +57,13 @@ public class EquipmentController {
         return ResponseEntity.ok(equipmentService.getRecommendations(id, limit));
     }
 
+    @DeleteMapping("/deleteAllEquipments")
+    public ResponseEntity<String> deleteAllEquipment(){
+        equipmentService.deleteAllEquipments();
+
+        return ResponseEntity.ok("All equipment records deleted successfully");
+    }
+
 
 
     @GetMapping("/search")
