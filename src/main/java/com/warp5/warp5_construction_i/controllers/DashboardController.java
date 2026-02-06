@@ -12,7 +12,7 @@ import java.util.List;
 @RestController
 @RequestMapping("/dashboard")
 public class DashboardController {
-public class DashboardController {
+
 
     private final DashboardService dashboardService;
 
@@ -30,3 +30,4 @@ public class DashboardController {
         return dashboardService.getRenterRecentReservations(renterId);
     }
 }
+
